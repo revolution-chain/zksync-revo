@@ -78,15 +78,25 @@ jobs:
               - '!**/*.md'
               - '!**/*.MD'
 
+  # Add a new setup job
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose-plugin
+          docker compose version
+
   ci-for-core-lint:
     name: CI for Core lint Components
-    needs: changed_files
+    needs: [changed_files, setup]  # Add setup as a dependency
     if: contains(github.ref_name, 'release-please--branches')
     uses: ./.github/workflows/ci-core-lint-reusable.yml
 
   ci-for-core:
     name: CI for Core Components
-    needs: changed_files
+    needs: [changed_files, setup]  # Add setup as a dependency
     if: ${{ (needs.changed_files.outputs.core == 'true' || needs.changed_files.outputs.all == 'true') && !contains(github.ref_name, 'release-please--branches') }}
     uses: ./.github/workflows/ci-core-reusable.yml
 
