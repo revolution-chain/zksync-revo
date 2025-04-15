@@ -120,6 +120,9 @@ jobs:
     needs: changed_files
     if: ${{ (needs.changed_files.outputs.core == 'true' || needs.changed_files.outputs.all == 'true') && !contains(github.ref_name, 'release-please--branches') }}
     uses: ./.github/workflows/build-core-template.yml
+    permissions:
+      packages: write
+      contents: read
     with:
       image_tag_suffix: ${{ needs.setup.outputs.image_tag_suffix }}
       action: "build"
