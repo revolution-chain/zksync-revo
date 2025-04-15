@@ -4,7 +4,8 @@ on:
 
 jobs:
   e2e-test:
-    runs-on: [ matterlabs-ci-gpu-l4-runner-prover-tests ]
+    # runs-on: [ matterlabs-ci-gpu-l4-runner-prover-tests ]
+    runs-on: ubuntu-latest
     strategy:
         fail-fast: false
         matrix:

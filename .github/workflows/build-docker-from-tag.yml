@@ -23,7 +23,8 @@ concurrency: docker-build
 jobs:
   setup:
     name: Setup
-    runs-on: [ubuntu-latest]
+    # runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
     outputs:
       image_tag_suffix: ${{ steps.set.outputs.image_tag_suffix }}
       prover_fri_gpu_key_id: ${{ steps.extract-prover-fri-setup-key-ids.outputs.gpu_short_commit_sha }}

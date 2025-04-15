@@ -11,7 +11,8 @@ on:
 jobs:
   release:
     # TODO: After migraton switch to CI
-    runs-on: [matterlabs-default-infra-runners]
+    # runs-on: [matterlabs-default-infra-runners]
+    runs-on: ubuntu-latest
     steps:
       - name: Login to Docker registries
         run: |

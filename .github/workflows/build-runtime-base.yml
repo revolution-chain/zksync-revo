@@ -9,7 +9,8 @@ on:
 jobs:
   build-images:
     name: Build and Push Docker Images
-    runs-on: matterlabs-ci-runner-high-performance
+    # runs-on: matterlabs-ci-runner-high-performance
+    runs-on: ubuntu-latest
     outputs:
       image_tag_sha: ${{ steps.get-sha.outputs.image_tag_sha }}
     # Needed to push to Gihub Package Registry

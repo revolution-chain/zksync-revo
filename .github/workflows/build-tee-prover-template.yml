@@ -20,7 +20,8 @@ jobs:
     name: Build and Push Docker Images
     env:
       IMAGE_TAG_SUFFIX: ${{ inputs.image_tag_suffix }}
-    runs-on: [matterlabs-ci-runner-high-performance]
+    # runs-on: [matterlabs-ci-runner-high-performance]
+    runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.config.nixcontainer }}
       cancel-in-progress: true

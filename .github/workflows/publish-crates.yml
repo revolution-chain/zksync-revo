@@ -28,7 +28,8 @@ jobs:
 
   publish-crates:
     name: Publish to crates.io
-    runs-on: matterlabs-ci-runner-highdisk
+    # runs-on: matterlabs-ci-runner-highdisk
+    runs-on: ubuntu-latest
     env:
       ZKSYNC_USE_CUDA_STUBS: true
     steps:
