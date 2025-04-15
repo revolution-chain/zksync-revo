@@ -84,9 +84,7 @@ jobs:
     steps:
       - name: Install Docker Compose
         run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose-plugin
-          docker compose version
+          sudo apt-get update && sudo apt-get install -y docker-compose-plugin
 
   ci-for-core-lint:
     name: CI for Core lint Components
