@@ -46,7 +46,8 @@ jobs:
           ci_run zkstack dev fmt --check rustfmt
 
   unit-tests:
-    runs-on: [ matterlabs-ci-runner-highmem-long ]
+    # runs-on: [ matterlabs-ci-runner-highmem-long ]
+    runs-on: ubuntu-latest
     env:
       RUNNER_COMPOSE_FILE: "docker-compose-runner-nightly.yml"
 
