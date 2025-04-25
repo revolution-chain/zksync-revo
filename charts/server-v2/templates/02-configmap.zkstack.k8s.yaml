@@ -1,0 +1,24 @@
+## 310-geth-configmap.yml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: zkstack-config
+  labels:
+    app: zkstack-config
+data:
+  ZkStack.yaml: |-
+    id: 1
+    name: revolution
+    chain_id: 73861
+    prover_version: Gpu
+    configs: /home/revolution/dummy_net/chains/revolution/configs/
+    rocks_db_path: /home/revolution/dummy_net/chains/revolution/db/
+    external_node_config_path: null
+    artifacts_path: /home/revolution/dummy_net/chains/revolution/artifacts/
+    l1_batch_commit_data_generator_mode: Rollup
+    base_token:
+      address: 0x2c81f8b274d6096bbd99a6e133e2dec3731af114
+      nominator: 1
+      denominator: 10
+    wallet_creation: InFile
+    evm_emulator: false
