@@ -34,6 +34,19 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+          - "--config-path"
+          - "/chains/revolution/configs/general.yaml"
+          - "--contracts-config-path"
+          - "/chains/revolution/configs/contracts.yaml"
+          - "--genesis-path"
+          - "/chains/revolution/configs/genesis.yaml"
+          - "--wallets-path"
+          - "/chains/revolution/configs/wallets.yaml"
+          - "--secrets-path"
+          - "/chains/revolution/configs/secrets.yaml"
+          - "--components"
+          - "api,tree,eth,state_keeper,housekeeper,commitment_generator,da_dispatcher,vm_runner_protective_reads,vm_runner_bwip"
           envFrom:
             - configMapRef:
                 name: settings
@@ -41,18 +54,41 @@ spec:
             #     name: {{ template "name" .}}
           ports: 
             - name: http
-              containerPort: 80
+              containerPort: 3252
               protocol: TCP
+            # - name: http-data
+            #   containerPort: 3320
+            #   protocol: TCP
           volumeMounts:
+            - name: zkstack-config
+              subPath: ecosystem.yaml
+              mountPath: /ZkStack.yaml
             - name: ecosystem-config
-              mountPath: /revo/configs
+              mountPath: /configs
+            - name: revolution-secrets
+              subPath: secrets.yaml
+              mountPath: /chains/revolution/configs/secrets.yaml
+            - name: revolution-secrets
+              subPath: wallets.yaml
+              mountPath: /chains/revolution/configs/wallets.yaml
             - name: chain-config
-              mountPath: /revo/chains/configs
-            - name: rocks-db
-              subPath: rocksdb
-              mountPath: /revo/chains/db
-            # - name: zkstack-config
-            #   mountPath: /revo/chains/configs
+              subPath: general.yaml
+              mountPath: /chains/revolution/configs/general.yaml
+            - name: chain-config
+              subPath: genesis.yaml
+              mountPath: /chains/revolution/configs/genesis.yaml
+            - name: chain-config
+              subPath: contracts.yaml
+              mountPath: /chains/revolution/configs/contracts.yaml
+            - name: zkstack-config
+              subPath: ZkStack.yaml
+              mountPath: /chains/revolution/ZkStack.yaml
+            - name: zk-pvc
+              subPath: artifacts/revolution/artifacts
+              mountPath: /chains/revolution/artifacts
+            - name: zk-pvc
+              subPath: rocksdb/revolution/db
+              mountPath: /chains/revolution/db
 {{- if hasKey .Values "livenessProbe" }}
           livenessProbe:
 {{ toYaml .Values.livenessProbe | trim | indent 12 }}

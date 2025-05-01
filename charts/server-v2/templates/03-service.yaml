@@ -15,7 +15,12 @@ spec:
     - port: {{ .Values.service.securePort }}
       targetPort: {{ .Values.service.targetPort }}
       protocol: TCP
-      name: https   
+      name: https
+    
+    - port: 3040
+      targetPort: 3040
+      protocol: TCP
+      name: data-fetcher
   selector:
     {{- include "selectorLabels" . | nindent 4 }}
 {{- end }}

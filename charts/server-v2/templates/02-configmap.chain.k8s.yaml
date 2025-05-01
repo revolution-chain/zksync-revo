@@ -14,14 +14,14 @@ data:
         server_url: postgres://postgres:notsecurepassword@localhost:5433/zksync_local_test
         prover_url: postgres://postgres:notsecurepassword@localhost:5433/prover_local_test
     db:
-      state_keeper_db_path: /home/revolution/dummy_net/chains/revolution/db/main/state_keeper
+      state_keeper_db_path: ./chains/revolution/db/main/state_keeper
       merkle_tree:
         multi_get_chunk_size: 500
         block_cache_size_mb: 128
         memtable_capacity_mb: 256
         stalled_writes_timeout_sec: 60
         max_l1_batches_per_iter: 20
-        path: /home/revolution/dummy_net/chains/revolution/db/main/tree
+        path: ./chains/revolution/db/main/tree
         mode: FULL
       experimental:
         state_keeper_db_block_cache_capacity_mb: 128
@@ -135,14 +135,14 @@ data:
     snapshot_creator:
       object_store:
         file_backed:
-          file_backed_base_path: /home/revolution/dummy_net/chains/revolution/artifacts/
+          file_backed_base_path: ./chains/revolution/artifacts/
         max_retries: 10
       concurrent_queries_count: 25
       storage_logs_chunk_size: 1000000
     prover:
       prover_object_store:
         file_backed:
-          file_backed_base_path: /home/revolution/dummy_net/chains/revolution/artifacts/
+          file_backed_base_path: ./chains/revolution/artifacts/
         max_retries: 10
       setup_data_path: data/keys
       prometheus_port: 3315
@@ -155,6 +155,7 @@ data:
       max_circuits_in_flight: 500
     data_handler:
       http_port: 3320
+      api_url: https://data.dev.revolutionchain.io
       proof_generation_timeout_in_secs: 18000
       tee_proof_generation_timeout_in_secs: 60
       tee_batch_permanently_ignored_timeout_in_hours: 240
@@ -211,11 +212,11 @@ data:
       log_format: plain
       log_directives: zksync_node_test_utils=info,zksync_state_keeper=info,zksync_reorg_detector=info,zksync_consistency_checker=info,zksync_metadata_calculator=info,zksync_node_sync=info,zksync_node_consensus=info,zksync_contract_verification_server=info,zksync_node_api_server=info,zksync_node_framework=info,zksync_block_reverter=info,zksync_commitment_generator=debug,zksync_node_db_pruner=info,zksync_eth_sender=info,zksync_node_fee_model=info,zksync_node_genesis=info,zksync_house_keeper=info,zksync_proof_data_handler=info,zksync_shared_metrics=info,zksync_node_test_utils=info,zksync_vm_runner=info,zksync_consensus_bft=info,zksync_consensus_network=info,zksync_consensus_storage=info,zksync_core_leftovers=debug,zksync_server=debug,zksync_contract_verifier=debug,zksync_dal=info,zksync_db_connection=info,zksync_eth_client=info,zksync_eth_watch=debug,zksync_storage=info,zksync_db_manager=info,zksync_merkle_tree=info,zksync_state=debug,zksync_utils=debug,zksync_queued_job_processor=info,zksync_types=info,zksync_mempool=debug,loadnext=info,vm=info,zksync_object_store=info,zksync_external_node=info,zksync_witness_generator=info,zksync_prover_fri=info,zksync_witness_vector_generator=info,zksync_web3_decl=debug,zksync_health_check=debug,zksync_proof_fri_compressor=info,vise_exporter=error,snapshots_creator=debug,zksync_base_token_adjuster=debug,zksync_external_price_api=debug,zksync_external_proof_integration_api=info
     protective_reads_writer:
-      db_path: /home/revolution/dummy_net/chains/revolution/db/main/protective_reads
+      db_path: ./chains/revolution/db/main/protective_reads
       window_size: 3
       first_processed_batch: 0
     basic_witness_input_producer:
-      db_path: /home/revolution/dummy_net/chains/revolution/db/main/basic_witness_input_producer
+      db_path: ./chains/revolution/db/main/basic_witness_input_producer
       window_size: 3
       first_processed_batch: 0
     experimental_vm:
@@ -230,7 +231,7 @@ data:
       object_store:
         max_retries: 100
         file_backed:
-          file_backed_base_path: /home/revolution/dummy_net/chains/revolution/artifacts/
+          file_backed_base_path: ./chains/revolution/artifacts/
       postgres:
         max_concurrency: 10
       tree:
@@ -247,7 +248,7 @@ data:
       max_parallelism: 10
     core_object_store:
       file_backed:
-        file_backed_base_path: /home/revolution/dummy_net/chains/revolution/artifacts/
+        file_backed_base_path: ./chains/revolution/artifacts/
       max_retries: 10
     da_dispatcher:
       polling_interval_ms: 5000
@@ -274,16 +275,16 @@ data:
           weight: 1
         leader: validator:public:bls12_381:a96f0ef72137f5af11887e40243c68d9e84c3668dc80da20aa93acde573cca4615cc3c28bb80eb0ec7a171f7560f97e00db0e1b54bb3a9fa7734c6d4019bd9af830fd5e7b41c4f31a81b334ce094ae4715b2189eb1c3190e79f22132cd0df4ad
 
-  secrets.yaml: |-
-    database:
-      server_url: postgres://oneiro:admin@45.33.90.86:31028/dummy_dev
-      prover_url: postgres://postgres:notsecurepassword@localhost/prover_local
-    l1:
-      l1_rpc_url: https://eth-sepolia.g.alchemy.com/v2/t3L6Ib7KIIT7FfNbeU6rkhKxHlNtjIWf
-    consensus:
-      validator_key: validator:secret:bls12_381:013418085b8efa5dcde1391578ec6d126356be1a726dcf507845eb8990f1e821
-      node_key: node:secret:ed25519:33fb8abb089aa920e9f625ddd03ea1663869b9d8eb0e6f2569a9e948638e8a26
-      attester_key: attester:secret:secp256k1:7439e9200e21fcfc13f25e0f20a7805699d55144c604b3fd10ec42639ee01b4c
+  # secrets.yaml: |-
+  #   database:
+  #     server_url: postgres://oneiro:admin@45.33.90.86:31028/dummy_dev
+  #     prover_url: postgres://postgres:notsecurepassword@localhost/prover_local
+  #   l1:
+  #     l1_rpc_url: https://eth-sepolia.g.alchemy.com/v2/t3L6Ib7KIIT7FfNbeU6rkhKxHlNtjIWf
+  #   consensus:
+  #     validator_key: validator:secret:bls12_381:013418085b8efa5dcde1391578ec6d126356be1a726dcf507845eb8990f1e821
+  #     node_key: node:secret:ed25519:33fb8abb089aa920e9f625ddd03ea1663869b9d8eb0e6f2569a9e948638e8a26
+  #     attester_key: attester:secret:secp256k1:7439e9200e21fcfc13f25e0f20a7805699d55144c604b3fd10ec42639ee01b4c
 
   genesis.yaml: |- 
     genesis_root: 0xb192c5937e91363c0b880faf0568b0621a3b16010cb2df42b588972516c1d4fe
@@ -349,3 +350,5 @@ data:
       consensus_registry: 0xa85dc90ed0e7adbb1b5f0995ef9fc4ec6d33d67c
       multicall3: 0xe34c0d42a640a4f0aaad5aa099df45e80b28f1d9
       timestamp_asserter_addr: 0x1e9a4a94d2f427557710ac21a05b36e8408ce4b0
+
+  

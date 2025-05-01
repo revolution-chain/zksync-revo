@@ -52,11 +52,11 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  enabled: false
+  enabled: true
   type: ClusterIP
   port: 80
   securePort: 443
-  targetPort: 8000
+  targetPort: 3252
 
 ingress:
   enabled: true
@@ -76,12 +76,12 @@ ingress:
     #  more_set_headers "Content-Security-Policy: default-src 'none'; script-src 'self' 'unsafe-inline'; connect-src * wss://relay.walletconnect.com/* wss://relay.walletconnect.org/*; frame-ancestors *;";
 
   hosts:
-    - host: server-v2.dev.revolutionchain.io
+    - host: dev.revolutionchain.io
       paths: ["/"]
   tls:
     - secretName: server-v2-dev-tls
       hosts:
-        - server-v2.dev.revolutionchain.io
+        - dev.revolutionchain.io
 
 resources:
   limits:
@@ -133,12 +133,18 @@ metadata:
 
 
 volumes:
+  - name: revolution-secrets
+    secret:
+      secretName: revolution
   - name: chain-config
     configMap:
       name: chain-config
   - name: ecosystem-config
     configMap:
       name: ecosystem-config
-  - name: rocks-db
+  - name: zkstack-config
+    configMap:
+      name: zkstack-config
+  - name: zk-pvc
     persistentVolumeClaim:
       claimName: zk-cephfs-pvc
