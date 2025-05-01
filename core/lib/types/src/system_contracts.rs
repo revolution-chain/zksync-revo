@@ -8,7 +8,7 @@ use zksync_system_constants::{
     EVM_PREDEPLOYS_MANAGER_ADDRESS, IDENTITY_ADDRESS, L2_ASSET_ROUTER_ADDRESS,
     L2_BRIDGEHUB_ADDRESS, L2_GENESIS_UPGRADE_ADDRESS, L2_MESSAGE_ROOT_ADDRESS,
     L2_NATIVE_TOKEN_VAULT_ADDRESS, L2_WRAPPED_BASE_TOKEN_IMPL, PUBDATA_CHUNK_PUBLISHER_ADDRESS,
-    SECP256R1_VERIFY_PRECOMPILE_ADDRESS, SLOAD_CONTRACT_ADDRESS,
+    SECP256R1_VERIFY_PRECOMPILE_ADDRESS, SLOAD_CONTRACT_ADDRESS, NODE_CONTRACT_ADDRESS,
 };
 
 use crate::{
@@ -28,7 +28,7 @@ use crate::{
 pub const TX_NONCE_INCREMENT: U256 = U256([1, 0, 0, 0]); // 1
 pub const DEPLOYMENT_NONCE_INCREMENT: U256 = U256([0, 0, 1, 0]); // 2^128
 
-static SYSTEM_CONTRACT_LIST: [(&str, &str, Address, ContractLanguage); 36] = [
+static SYSTEM_CONTRACT_LIST: [(&str, &str, Address, ContractLanguage); 37] = [
     (
         "",
         "AccountCodeStorage",
@@ -193,6 +193,12 @@ static SYSTEM_CONTRACT_LIST: [(&str, &str, Address, ContractLanguage); 36] = [
         "",
         "Create2Factory",
         CREATE2_FACTORY_ADDRESS,
+        ContractLanguage::Sol,
+    ),
+    (
+        "",
+        "NodeContract",
+        NODE_CONTRACT_ADDRESS,
         ContractLanguage::Sol,
     ),
     (

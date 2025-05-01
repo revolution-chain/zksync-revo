@@ -72,15 +72,27 @@ pub enum ProtocolVersionId {
     Version26,
     Version27,
     Version28,
+    Version29,
+    Version30,
+    Version31,
+    Version32,
+    Version33,
+    Version34,
+    Version35,
+    Version36,
+    Version37,
+    Version38,
+    Version39,
+    Version40,
 }
 
 impl ProtocolVersionId {
     pub const fn latest() -> Self {
-        Self::Version27
+        Self::Version28
     }
 
     pub const fn next() -> Self {
-        Self::Version28
+        Self::Version29
     }
 
     pub fn try_from_packed_semver(packed_semver: U256) -> Result<Self, String> {
@@ -129,6 +141,18 @@ impl ProtocolVersionId {
 
             // Speculative VM version for the next protocol version to be used in the upgrade integration test etc.
             ProtocolVersionId::Version28 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version29 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version30 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version31 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version32 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version33 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version34 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version35 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version36 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version37 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version38 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version39 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version40 => VmVersion::VmEvmEmulator,
         }
     }
 
@@ -310,6 +334,18 @@ impl From<ProtocolVersionId> for VmVersion {
 
             // Speculative VM version for the next protocol version to be used in the upgrade integration test etc.
             ProtocolVersionId::Version28 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version29 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version30 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version31 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version32 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version33 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version34 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version35 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version36 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version37 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version38 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version39 => VmVersion::VmEvmEmulator,
+            ProtocolVersionId::Version40 => VmVersion::VmEvmEmulator,
         }
     }
 }

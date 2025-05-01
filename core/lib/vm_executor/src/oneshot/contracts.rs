@@ -110,6 +110,18 @@ impl<C: ContractsKind> MultiVmBaseSystemContracts<C> {
 
             // Speculative base system contracts for the next protocol version to be used in the upgrade integration test etc.
             ProtocolVersionId::Version28 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version29 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version30 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version31 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version32 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version33 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version34 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version35 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version36 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version37 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version38 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version39 => &self.vm_evm_emulator,
+            ProtocolVersionId::Version40 => &self.vm_evm_emulator,
         };
         base.clone()
     }

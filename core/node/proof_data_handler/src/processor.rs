@@ -1,10 +1,13 @@
 use std::{sync::Arc, time::Duration};
 
+use axum::{Json};
 use zksync_config::configs::ProofDataHandlerConfig;
 use zksync_dal::{ConnectionPool, Core, CoreDal};
 use zksync_object_store::{ObjectStore, StoredObject};
 use zksync_prover_interface::{
-    api::ProofGenerationData,
+    api::{
+        ProofGenerationData, SubmitProofResponse,
+    },
     inputs::{
         L1BatchMetadataHashes, VMRunWitnessInputData, WitnessInputData, WitnessInputMerklePaths,
     },
@@ -220,7 +223,7 @@ impl Processor<Locking> {
         &self,
         l1_batch_number: L1BatchNumber,
         proof: L1BatchProofForL1,
-    ) -> Result<(), ProcessorError> {
+    ) -> Result<Json<SubmitProofResponse>, ProcessorError> {
         tracing::info!("Received proof for block number: {:?}", l1_batch_number);
 
         let blob_url = self
@@ -304,7 +307,7 @@ impl Processor<Locking> {
             .proof_generation_dal()
             .save_proof_artifacts_metadata(l1_batch_number, &blob_url)
             .await?;
-        Ok(())
+        Ok(Json(SubmitProofResponse::Success))
     }
 
     pub async fn save_skipped_proof(
