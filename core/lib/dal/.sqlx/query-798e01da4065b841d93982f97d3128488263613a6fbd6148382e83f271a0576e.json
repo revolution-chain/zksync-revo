@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)\n                VALUES ('tcb_info_json', $1, $2, transaction_timestamp())\n                ON CONFLICT (kind)\n                DO UPDATE SET\n                    sha256 = $1,\n                    not_after = $2,\n                    updated = transaction_timestamp()\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Bytea",
+        "Timestamp"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "798e01da4065b841d93982f97d3128488263613a6fbd6148382e83f271a0576e"
+}
