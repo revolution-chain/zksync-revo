@@ -91,6 +91,7 @@ message TeeProofDataHandler {
   optional uint64 first_processed_batch = 2; // optional
   optional uint32 proof_generation_timeout_in_secs = 3; // optional
   optional uint32 batch_permanently_ignored_timeout_in_hours = 4; // optional
+  optional uint32 dcap_collateral_refresh_in_secs = 5; // optional
 }
 
 enum ApiMode {

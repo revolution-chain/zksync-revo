@@ -1,10 +1,10 @@
 use std::{sync::Arc, time::Duration};
 
+use tokio::{select, sync::watch};
 use zksync_config::configs::TeeProofDataHandlerConfig;
 use zksync_dal::{Connection, ConnectionPool, Core, CoreDal};
 use zksync_object_store::ObjectStore;
 use zksync_types::{commitment::L1BatchCommitmentMode, L2ChainId};
-use tokio::{select, sync::watch};
 
 pub(crate) async fn updater(
     blob_store: Arc<dyn ObjectStore>,
@@ -14,8 +14,12 @@ pub(crate) async fn updater(
     l2_chain_id: L2ChainId,
     mut stop_receiver: watch::Receiver<bool>,
 ) -> anyhow::Result<()> {
-    let mut interval = tokio::time::interval(Duration::from_secs(config.dcap_collateral_refresh_seconds));
-    let mut connection = connection_pool.connection_tagged("tee_dcap_collateral_updater").await?;
+    let mut interval = tokio::time::interval(Duration::from_secs(
+        config.dcap_collateral_refresh_in_secs.into(),
+    ));
+    let mut connection = connection_pool
+        .connection_tagged("tee_dcap_collateral_updater")
+        .await?;
     loop {
         select! {
             _ = interval.tick() => {}
@@ -29,5 +33,5 @@ pub(crate) async fn updater(
         }
         let mut dal = connection.tee_dcap_collateral_dal();
         // do work here
-    } 
+    }
 }

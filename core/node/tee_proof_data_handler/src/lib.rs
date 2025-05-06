@@ -63,8 +63,12 @@ pub async fn run_server(
     ));
 
     let (server, updater) = join!(server, updater);
-    server.context("Proof data handler server join failed")?.context("Proof data handler server failed")?;
-    updater.context("DCAP collateral updater join failed")?.context("DCAP collateral updater failed")?;
+    server
+        .context("Proof data handler server join failed")?
+        .context("Proof data handler server failed")?;
+    updater
+        .context("DCAP collateral updater join failed")?
+        .context("DCAP collateral updater failed")?;
     tracing::info!("Proof data handler server and DCAP collateral updater shut down");
     Ok(())
 }

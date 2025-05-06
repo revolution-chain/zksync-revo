@@ -1,6 +1,7 @@
-use crate::Core;
 use chrono::NaiveDateTime;
 use zksync_db_connection::{connection::Connection, error::DalResult, instrument::InstrumentExt};
+
+use crate::Core;
 
 #[derive(Debug)]
 pub struct TeeDcapCollateralDal<'a, 'c> {
@@ -42,14 +43,14 @@ impl TeeDcapCollateralDal<'_, '_> {
     ) -> DalResult<()> {
         let query = sqlx::query!(
             r#"
-                INSERT INTO tee_dcap_collateral_certs
-                    (serial_number, issuer, sha256, not_after, updated)
-                VALUES ($1, $2, $3, $4, transaction_timestamp())
-                ON CONFLICT (serial_number, issuer)
-                DO UPDATE SET
-                    sha256 = $3,
-                    not_after = $4,
-                    updated = transaction_timestamp()
+            INSERT INTO tee_dcap_collateral_certs
+            (serial_number, issuer, sha256, not_after, updated)
+            VALUES ($1, $2, $3, $4, transaction_timestamp())
+            ON CONFLICT (serial_number, issuer)
+            DO UPDATE SET
+            sha256 = $3,
+            not_after = $4,
+            updated = transaction_timestamp()
             "#,
             serial_number,
             issuer,
@@ -88,13 +89,13 @@ impl TeeDcapCollateralDal<'_, '_> {
     ) -> DalResult<()> {
         let query = sqlx::query!(
             r#"
-                INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
-                VALUES ('root_crl', $1, $2, transaction_timestamp())
-                ON CONFLICT (kind)
-                DO UPDATE SET
-                    sha256 = $1,
-                    not_after = $2,
-                    updated = transaction_timestamp()
+            INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
+            VALUES ('root_crl', $1, $2, transaction_timestamp())
+            ON CONFLICT (kind)
+            DO UPDATE SET
+            sha256 = $1,
+            not_after = $2,
+            updated = transaction_timestamp()
             "#,
             sha256,
             not_after
@@ -129,13 +130,13 @@ impl TeeDcapCollateralDal<'_, '_> {
     ) -> DalResult<()> {
         let query = sqlx::query!(
             r#"
-                INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
-                VALUES ('pck_crl', $1, $2, transaction_timestamp())
-                ON CONFLICT (kind)
-                DO UPDATE SET
-                    sha256 = $1,
-                    not_after = $2,
-                    updated = transaction_timestamp()
+            INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
+            VALUES ('pck_crl', $1, $2, transaction_timestamp())
+            ON CONFLICT (kind)
+            DO UPDATE SET
+            sha256 = $1,
+            not_after = $2,
+            updated = transaction_timestamp()
             "#,
             sha256,
             not_after
@@ -170,13 +171,13 @@ impl TeeDcapCollateralDal<'_, '_> {
     ) -> DalResult<()> {
         let query = sqlx::query!(
             r#"
-                INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
-                VALUES ('tcb_info_json', $1, $2, transaction_timestamp())
-                ON CONFLICT (kind)
-                DO UPDATE SET
-                    sha256 = $1,
-                    not_after = $2,
-                    updated = transaction_timestamp()
+            INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
+            VALUES ('tcb_info_json', $1, $2, transaction_timestamp())
+            ON CONFLICT (kind)
+            DO UPDATE SET
+            sha256 = $1,
+            not_after = $2,
+            updated = transaction_timestamp()
             "#,
             sha256,
             not_after
@@ -211,13 +212,13 @@ impl TeeDcapCollateralDal<'_, '_> {
     ) -> DalResult<()> {
         let query = sqlx::query!(
             r#"
-                INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
-                VALUES ('qe_identity_json', $1, $2, transaction_timestamp())
-                ON CONFLICT (kind)
-                DO UPDATE SET
-                    sha256 = $1,
-                    not_after = $2,
-                    updated = transaction_timestamp()
+            INSERT INTO tee_dcap_collateral (kind, sha256, not_after, updated)
+            VALUES ('qe_identity_json', $1, $2, transaction_timestamp())
+            ON CONFLICT (kind)
+            DO UPDATE SET
+            sha256 = $1,
+            not_after = $2,
+            updated = transaction_timestamp()
             "#,
             sha256,
             not_after

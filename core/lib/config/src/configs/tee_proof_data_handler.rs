@@ -3,7 +3,6 @@ use std::time::Duration;
 use serde::Deserialize;
 use zksync_basic_types::L1BatchNumber;
 
-
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct TeeProofDataHandlerConfig {
     pub http_port: u16,
@@ -20,9 +19,9 @@ pub struct TeeProofDataHandlerConfig {
         default = "TeeProofDataHandlerConfig::default_tee_batch_permanently_ignored_timeout_in_hours"
     )]
     pub batch_permanently_ignored_timeout_in_hours: u16,
-    /// How frequently to attempt to refresh the dcap collateral in seconds. 
-    #[serde(default = "TeeProofDataHandlerConfig::default_dcap_collateral_refresh_seconds")]
-    pub dcap_collateral_refresh_seconds: u64,
+    /// How frequently to attempt to refresh the dcap collateral in seconds.
+    #[serde(default = "TeeProofDataHandlerConfig::default_dcap_collateral_refresh_in_secs")]
+    pub dcap_collateral_refresh_in_secs: u32,
 }
 
 impl TeeProofDataHandlerConfig {
@@ -34,7 +33,7 @@ impl TeeProofDataHandlerConfig {
         60
     }
 
-    pub fn default_dcap_collateral_refresh_seconds() -> u64 {
+    pub fn default_dcap_collateral_refresh_in_secs() -> u32 {
         24 * 60 * 60 // 1 day
     }
 

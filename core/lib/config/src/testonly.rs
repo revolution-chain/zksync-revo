@@ -564,7 +564,7 @@ impl Distribution<configs::TeeProofDataHandlerConfig> for EncodeDist {
             first_processed_batch: L1BatchNumber(rng.gen()),
             proof_generation_timeout_in_secs: self.sample(rng),
             batch_permanently_ignored_timeout_in_hours: self.sample(rng),
-            dcap_collateral_refresh_seconds: self.sample(rng),
+            dcap_collateral_refresh_in_secs: self.sample(rng),
         }
     }
 }
