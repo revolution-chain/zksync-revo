@@ -46,9 +46,6 @@ pub(crate) async fn updater(
 pub(crate) fn get_next_update(
     tcbinfo_or_qe_identity_val: &Value,
 ) -> Result<NaiveDateTime, TeeProcessorError> {
-    let tcbinfo_or_qe_identity_val = tcbinfo_or_qe_identity_val
-        .get("enclaveIdentity")
-        .context("Failed to get enclave identity")?;
     let next_update = tcbinfo_or_qe_identity_val
         .get("nextUpdate")
         .context("Failed to get nextUpdate")?;
@@ -129,6 +126,9 @@ pub(crate) async fn update_collateral_for_quote(
     {
         let tcb_info_val = serde_json::from_str::<serde_json::Value>(tcb_info_json.as_str())
             .context("Failed to parse TCB info")?;
+        let tcb_info_val = tcb_info_val
+            .get("tcbInfo")
+            .context("Failed to get enclave identity")?;
         let not_after = get_next_update(&tcb_info_val)?;
 
         dal.tcb_info_json_updated(&tcb_info_hash, not_after).await?;
@@ -141,6 +141,9 @@ pub(crate) async fn update_collateral_for_quote(
         let enclave_identity_val =
             serde_json::from_str::<serde_json::Value>(enclave_identity_json.as_str())
                 .context("Failed to parse enclave identity")?;
+        let enclave_identity_val = enclave_identity_val
+            .get("enclaveIdentity")
+            .context("Failed to get enclave identity")?;
         let not_after = get_next_update(&enclave_identity_val)?;
 
         dal.qe_identity_json_updated(&qe_identity_hash, not_after)
