@@ -56,6 +56,8 @@ impl EthConfig {
                 is_verifier_pre_fflonk: true,
                 gas_limit_mode: GasLimitMode::Maximum,
                 max_acceptable_base_fee_in_wei: 100000000000,
+                tee_dcap_attestation_gas_limit: 0,
+                tee_dcap_attestation_max_retries: 0,
             }),
             gas_adjuster: Some(GasAdjusterConfig {
                 default_priority_fee_per_gas: 1000000000,
@@ -105,6 +107,10 @@ pub enum GasLimitMode {
     Calculated,
 }
 
+/// Parameters for DCAP (Data Center Attestation Primitives) attestation
+#[derive(Debug, Deserialize, Clone, PartialEq)]
+pub struct TeeDcapAttestationParams {}
+
 #[derive(Debug, Deserialize, Clone, PartialEq)]
 pub struct SenderConfig {
     /// Amount of confirmations required to consider L1 transaction committed.
@@ -152,6 +158,11 @@ pub struct SenderConfig {
     /// Max acceptable base fee the sender is allowed to use to send L1 txs.
     #[serde(default = "SenderConfig::default_max_acceptable_base_fee_in_wei")]
     pub max_acceptable_base_fee_in_wei: u64,
+
+    /// Gas limit for DCAP attestation transactions
+    pub tee_dcap_attestation_gas_limit: u64,
+    /// Maximum number of retry attempts for failed attestation transactions
+    pub tee_dcap_attestation_max_retries: u32,
 }
 
 impl SenderConfig {
@@ -187,6 +198,14 @@ impl SenderConfig {
             .map(|pk| pk.parse().unwrap())
     }
 
+    // Don't load TEE DCAP private key, if it's not required
+    #[deprecated]
+    pub fn private_key_tee_dcap(&self) -> Option<H256> {
+        std::env::var("ETH_SENDER_SENDER_OPERATOR_TEE_DCAP_PRIVATE_KEY")
+            .ok()
+            .map(|pk| pk.parse().unwrap())
+    }
+
     pub const fn default_gas_limit_mode() -> GasLimitMode {
         GasLimitMode::Maximum
     }
@@ -207,6 +226,14 @@ impl SenderConfig {
 
     pub const fn default_max_acceptable_base_fee_in_wei() -> u64 {
         u64::MAX
+    }
+
+    pub const fn default_tee_dcap_attestation_gas_limit() -> u64 {
+        u64::MAX
+    }
+
+    pub const fn default_tee_dcap_attestation_max_retries() -> u32 {
+        0
     }
 }
 

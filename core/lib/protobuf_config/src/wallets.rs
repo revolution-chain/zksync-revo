@@ -24,6 +24,22 @@ impl ProtoRepr for proto::Wallets {
                 None
             };
 
+            let tee_dcap_attestation_operator =
+                if let Some(tee_dcap_attestation_operator) = &self.tee_dcap_attestation_operator {
+                    Some(Wallet::from_private_key_bytes(
+                        parse_h256(
+                            required(&tee_dcap_attestation_operator.private_key)
+                                .context("blob operator")?,
+                        )?,
+                        tee_dcap_attestation_operator
+                            .address
+                            .as_ref()
+                            .and_then(|a| parse_h160(a).ok()),
+                    )?)
+                } else {
+                    None
+                };
+
             let operator_wallet = &self.operator.clone().context("Operator private key")?;
 
             let operator = Wallet::from_private_key_bytes(
@@ -37,6 +53,7 @@ impl ProtoRepr for proto::Wallets {
             Some(EthSender {
                 operator,
                 blob_operator,
+                tee_dcap_attestation_operator,
             })
         } else {
             None
@@ -86,21 +103,28 @@ impl ProtoRepr for proto::Wallets {
             }
         };
 
-        let (operator, blob_operator) = if let Some(eth_sender) = &this.eth_sender {
-            let blob = eth_sender
-                .blob_operator
-                .as_ref()
-                .map(|blob| create_pk_wallet(blob.address(), blob.private_key()));
-            (
-                Some(create_pk_wallet(
-                    eth_sender.operator.address(),
-                    eth_sender.operator.private_key(),
-                )),
-                blob,
-            )
-        } else {
-            (None, None)
-        };
+        let (operator, blob_operator, tee_dcap_attestation_operator) =
+            if let Some(eth_sender) = &this.eth_sender {
+                let blob = eth_sender
+                    .blob_operator
+                    .as_ref()
+                    .map(|blob| create_pk_wallet(blob.address(), blob.private_key()));
+                let tee_dcap_attestation_operator = eth_sender
+                    .tee_dcap_attestation_operator
+                    .as_ref()
+                    .map(|wallet| create_pk_wallet(wallet.address(), wallet.private_key()));
+
+                (
+                    Some(create_pk_wallet(
+                        eth_sender.operator.address(),
+                        eth_sender.operator.private_key(),
+                    )),
+                    blob,
+                    tee_dcap_attestation_operator,
+                )
+            } else {
+                (None, None, None)
+            };
 
         let fee_account = this
             .state_keeper
@@ -124,6 +148,7 @@ impl ProtoRepr for proto::Wallets {
             operator,
             fee_account,
             token_multiplier_setter,
+            tee_dcap_attestation_operator,
         }
     }
 }

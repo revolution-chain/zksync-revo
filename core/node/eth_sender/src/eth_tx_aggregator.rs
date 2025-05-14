@@ -73,6 +73,7 @@ pub struct EthTxAggregator {
     /// addresses at play: the main one and the custom address for sending commit
     /// transactions. The `Some` then contains client for this custom operator address.
     eth_client_blobs: Option<Box<dyn BoundEthInterface>>,
+    eth_client_tee_dcap: Option<Box<dyn BoundEthInterface>>,
     pool: ConnectionPool<Core>,
     sl_chain_id: SLChainId,
     health_updater: HealthUpdater,
@@ -96,6 +97,7 @@ impl EthTxAggregator {
         aggregator: Aggregator,
         eth_client: Box<dyn BoundEthInterface>,
         eth_client_blobs: Option<Box<dyn BoundEthInterface>>,
+        eth_client_tee_dcap: Option<Box<dyn BoundEthInterface>>,
         config_timelock_contract_address: Address,
         state_transition_manager_address: Address,
         l1_multicall3_address: Address,
@@ -105,6 +107,7 @@ impl EthTxAggregator {
     ) -> Self {
         let eth_client = eth_client.for_component("eth_tx_aggregator");
         let eth_client_blobs = eth_client_blobs.map(|c| c.for_component("eth_tx_aggregator"));
+        let eth_client_tee_dcap = eth_client_tee_dcap.map(|c| c.for_component("eth_tx_aggregator"));
 
         let functions = ZkSyncFunctions::default();
 
@@ -129,6 +132,7 @@ impl EthTxAggregator {
             functions,
             rollup_chain_id,
             eth_client_blobs,
+            eth_client_tee_dcap,
             pool,
             sl_chain_id,
             health_updater: ReactiveHealthCheck::new("eth_tx_aggregator").1,

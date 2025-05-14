@@ -141,6 +141,10 @@ impl ProtoRepr for proto::Contracts {
                 .multicall3
                 .as_ref()
                 .map(|x| parse_h160(x).expect("Invalid address")),
+            tee_dcap_attestation_addr: l1
+                .tee_dcap_attestation_addr
+                .as_ref()
+                .map(|x| parse_h160(x).expect("Invalid address")),
         })
     }
 
@@ -175,6 +179,7 @@ impl ProtoRepr for proto::Contracts {
                 no_da_validium_l1_validator_addr: this
                     .no_da_validium_l1_validator_addr
                     .map(|a| format!("{:?}", a)),
+                tee_dcap_attestation_addr: Some(format!("{:?}", this.tee_dcap_attestation_addr)),
             }),
             l2: Some(proto::L2 {
                 testnet_paymaster_addr: this.l2_testnet_paymaster_addr.map(|a| format!("{:?}", a)),

@@ -25,6 +25,10 @@ impl FromEnv for Wallets {
             "ETH_SENDER_SENDER_OPERATOR_BLOBS_PRIVATE_KEY",
             "Malformed blob operator pk",
         )?;
+        let tee_dcap_attestation_operator = pk_from_env(
+            "ETH_SENDER_SENDER_OPERATOR_TEE_PRIVATE_KEY",
+            "Malformed TEE DCAP attestation operator pk",
+        )?;
 
         let eth_sender = if let Some(operator) = operator {
             let operator = Wallet::from_private_key_bytes(operator, None)?;
@@ -33,10 +37,20 @@ impl FromEnv for Wallets {
             } else {
                 None
             };
+            let tee_dcap_attestation_operator =
+                if let Some(tee_dcap_attestation_operator) = tee_dcap_attestation_operator {
+                    Some(Wallet::from_private_key_bytes(
+                        tee_dcap_attestation_operator,
+                        None,
+                    )?)
+                } else {
+                    None
+                };
 
             Some(EthSender {
                 operator,
                 blob_operator,
+                tee_dcap_attestation_operator,
             })
         } else {
             None

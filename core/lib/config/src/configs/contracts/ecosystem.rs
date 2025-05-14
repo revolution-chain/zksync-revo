@@ -23,4 +23,5 @@ pub struct EcosystemCommonContracts {
     pub state_transition_proxy_addr: Option<Address>,
     pub multicall3: Option<Address>,
     pub validator_timelock_addr: Option<Address>,
+    pub tee_dcap_attestation_addr: Option<Address>,
 }

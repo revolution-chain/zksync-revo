@@ -71,6 +71,15 @@ impl Resource for BoundEthInterfaceForBlobsResource {
     }
 }
 
+/// Same as `BoundEthInterfaceResource`, but for managing EIP-4844 blobs.
+#[derive(Debug, Clone)]
+pub struct BoundEthInterfaceForTeeDcapResource(pub Box<dyn BoundEthInterface>);
+
+impl Resource for BoundEthInterfaceForTeeDcapResource {
+    fn name() -> String {
+        "common/bound_eth_interface_for_tee_dcap".into()
+    }
+}
 #[derive(Debug, Clone)]
 pub struct BoundEthInterfaceForL2Resource(pub Box<dyn BoundEthInterface>);
 

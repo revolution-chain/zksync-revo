@@ -110,6 +110,11 @@ pub(super) struct EthSenderMetrics {
     /// Number of L1 batches aggregated for publishing with a specific reason.
     pub block_aggregation_reason: Family<AggregationReasonLabels, Counter>,
     pub l1_transient_errors: Counter,
+    /// Number of DCAP attestation transactions by status
+    //pub dcap_attestation_transactions: Family<&'static str, Counter>,
+    /// Amount of gas used by DCAP attestation transactions
+    #[metrics(buckets = FEE_BUCKETS)]
+    pub dcap_attestation_gas_used: Histogram<u64>,
 }
 
 impl EthSenderMetrics {

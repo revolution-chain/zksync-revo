@@ -1,6 +1,7 @@
 use zksync_config::{configs::wallets, GasAdjusterConfig};
 use zksync_eth_client::{clients::PKSigningClient, EthInterface};
 
+use crate::implementations::resources::eth_interface::BoundEthInterfaceForTeeDcapResource;
 use crate::{
     implementations::resources::{
         contracts::{L1ChainContractsResource, SettlementLayerContractsResource},
@@ -37,6 +38,7 @@ pub struct Output {
     /// Only provided if the blob operator key is provided to the layer.
     pub signing_client_for_blobs: Option<BoundEthInterfaceForBlobsResource>,
     pub signing_client_for_gateway: Option<BoundEthInterfaceForL2Resource>,
+    pub signing_client_for_tee_dcap: Option<BoundEthInterfaceForTeeDcapResource>,
 }
 
 impl PKSigningEthClientLayer {
@@ -90,10 +92,32 @@ impl WiringLayer for PKSigningEthClientLayer {
                     .diamond_proxy_addr,
                 gas_adjuster_config.default_priority_fee_per_gas,
                 l1_chain_id,
-                query_client,
+                query_client.clone(),
             );
             BoundEthInterfaceForBlobsResource(Box::new(signing_client_for_blobs))
         });
+
+        // TODO: Unclear
+        let signing_client_for_tee_dcap =
+            self.wallets
+                .tee_dcap_attestation_operator
+                .map(|tee_dcap_attestation_operator| {
+                    let private_key = tee_dcap_attestation_operator.private_key();
+                    let signing_client_for_blobs = PKSigningClient::new_raw(
+                        private_key.clone(),
+                        input
+                            .l1_contracts
+                            .0
+                            .ecosystem_contracts
+                            .tee_dcap_attestation_addr
+                            .unwrap(),
+                        gas_adjuster_config.default_priority_fee_per_gas,
+                        l1_chain_id,
+                        // TODO: Unclear
+                        query_client,
+                    );
+                    BoundEthInterfaceForTeeDcapResource(Box::new(signing_client_for_blobs))
+                });
 
         let signing_client_for_l2_gateway = match input.gateway_client.0 {
             SettlementLayerClient::L2(gateway_client) => {
@@ -120,6 +144,7 @@ impl WiringLayer for PKSigningEthClientLayer {
             signing_client,
             signing_client_for_blobs,
             signing_client_for_gateway: signing_client_for_l2_gateway,
+            signing_client_for_tee_dcap,
         })
     }
 }

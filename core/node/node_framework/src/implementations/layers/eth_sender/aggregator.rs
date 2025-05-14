@@ -4,6 +4,7 @@ use zksync_config::configs::eth_sender::SenderConfig;
 use zksync_eth_sender::{Aggregator, EthTxAggregator};
 use zksync_types::{commitment::L1BatchCommitmentMode, L2ChainId};
 
+use crate::implementations::resources::eth_interface::BoundEthInterfaceForTeeDcapResource;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
@@ -55,6 +56,7 @@ pub struct Input {
     pub eth_client: Option<BoundEthInterfaceResource>,
     pub eth_client_blobs: Option<BoundEthInterfaceForBlobsResource>,
     pub eth_client_gateway: Option<BoundEthInterfaceForL2Resource>,
+    pub eth_client_tee_dcap: Option<BoundEthInterfaceForTeeDcapResource>,
     pub object_store: ObjectStoreResource,
     pub settlement_mode: SettlementModeResource,
     pub sender_config: SenderConfig,
@@ -139,6 +141,7 @@ impl WiringLayer for EthTxAggregatorLayer {
         let replica_pool = input.replica_pool.get().await.unwrap();
 
         let eth_client_blobs = input.eth_client_blobs.map(|c| c.0);
+        let eth_client_tee_dcap = input.eth_client_tee_dcap.map(|c| c.0);
         let object_store = input.object_store.0;
 
         // Create and add tasks.
@@ -160,6 +163,7 @@ impl WiringLayer for EthTxAggregatorLayer {
             aggregator,
             eth_client,
             eth_client_blobs,
+            eth_client_tee_dcap,
             validator_timelock_addr,
             state_transition_manager_address,
             multicall3_addr,

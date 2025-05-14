@@ -62,6 +62,7 @@ impl Wallet {
 pub struct EthSender {
     pub operator: Wallet,
     pub blob_operator: Option<Wallet>,
+    pub tee_dcap_attestation_operator: Option<Wallet>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -88,6 +89,9 @@ impl Wallets {
                 operator: Wallet::from_private_key_bytes(H256::repeat_byte(0x1), None).unwrap(),
                 blob_operator: Some(
                     Wallet::from_private_key_bytes(H256::repeat_byte(0x2), None).unwrap(),
+                ),
+                tee_dcap_attestation_operator: Some(
+                    Wallet::from_private_key_bytes(H256::repeat_byte(0x5), None).unwrap(),
                 ),
             }),
             state_keeper: Some(StateKeeper {

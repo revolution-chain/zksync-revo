@@ -46,6 +46,7 @@ pub struct AllContractsConfig {
     pub l2_da_validator_addr: Option<Address>,
     pub no_da_validium_l1_validator_addr: Option<Address>,
     pub l2_multicall3_addr: Option<Address>,
+    pub tee_dcap_attestation_addr: Option<Address>,
 }
 
 impl AllContractsConfig {
@@ -78,6 +79,7 @@ impl AllContractsConfig {
             l2_da_validator_addr: Some(Address::repeat_byte(0x1a)),
             no_da_validium_l1_validator_addr: Some(Address::repeat_byte(0x1b)),
             l2_multicall3_addr: Some(Address::repeat_byte(0x1c)),
+            tee_dcap_attestation_addr: Some(Address::repeat_byte(0x1d)),
         }
     }
 
@@ -117,6 +119,7 @@ impl AllContractsConfig {
                 state_transition_proxy_addr: self.state_transition_proxy_addr,
                 multicall3: Some(self.l1_multicall3_addr),
                 validator_timelock_addr: Some(self.validator_timelock_addr),
+                tee_dcap_attestation_addr: self.tee_dcap_attestation_addr,
             },
             chain_contracts_config: ChainContracts {
                 diamond_proxy_addr: self.diamond_proxy_addr,

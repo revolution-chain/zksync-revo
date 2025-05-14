@@ -77,6 +77,8 @@ pub async fn load_settlement_layer_contracts(
             state_transition_proxy_addr: Some(ctm_address),
             validator_timelock_addr: Some(validator_timelock_addr),
             multicall3,
+            // TODO: initialize it
+            tee_dcap_attestation_addr: None,
         },
         chain_contracts_config: ChainContracts {
             diamond_proxy_addr: diamond_proxy,

@@ -247,6 +247,7 @@ impl Distribution<configs::AllContractsConfig> for EncodeDist {
             no_da_validium_l1_validator_addr: self.sample_opt(|| rng.gen()),
             l2_multicall3_addr: self.sample_opt(|| rng.gen()),
             server_notifier_addr: None,
+            tee_dcap_attestation_addr: self.sample_opt(|| rng.gen()),
         }
     }
 }
@@ -403,6 +404,8 @@ impl Distribution<configs::eth_sender::SenderConfig> for EncodeDist {
             is_verifier_pre_fflonk: self.sample(rng),
             gas_limit_mode: self.sample(rng),
             max_acceptable_base_fee_in_wei: self.sample(rng),
+            tee_dcap_attestation_gas_limit: self.sample(rng),
+            tee_dcap_attestation_max_retries: self.sample(rng),
         }
     }
 }
@@ -780,6 +783,7 @@ impl Distribution<configs::wallets::EthSender> for EncodeDist {
         configs::wallets::EthSender {
             operator: self.sample(rng),
             blob_operator: self.sample_opt(|| self.sample(rng)),
+            tee_dcap_attestation_operator: self.sample_opt(|| self.sample(rng)),
         }
     }
 }

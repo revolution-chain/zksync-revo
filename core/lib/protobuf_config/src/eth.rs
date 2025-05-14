@@ -141,6 +141,12 @@ impl ProtoRepr for proto::Sender {
             max_acceptable_base_fee_in_wei: self
                 .max_acceptable_base_fee_in_wei
                 .unwrap_or(Self::Type::default_max_acceptable_base_fee_in_wei()),
+            tee_dcap_attestation_gas_limit: self
+                .tee_dcap_attestation_gas_limit
+                .unwrap_or(Self::Type::default_tee_dcap_attestation_gas_limit()),
+            tee_dcap_attestation_max_retries: self
+                .tee_dcap_attestation_max_retries
+                .unwrap_or(Self::Type::default_tee_dcap_attestation_max_retries()),
         })
     }
 
@@ -172,6 +178,8 @@ impl ProtoRepr for proto::Sender {
             is_verifier_pre_fflonk: Some(this.is_verifier_pre_fflonk),
             gas_limit_mode: Some(proto::GasLimitMode::new(&this.gas_limit_mode).into()),
             max_acceptable_base_fee_in_wei: Some(this.max_acceptable_base_fee_in_wei),
+            tee_dcap_attestation_gas_limit: Some(this.tee_dcap_attestation_gas_limit),
+            tee_dcap_attestation_max_retries: Some(this.tee_dcap_attestation_max_retries),
         }
     }
 }

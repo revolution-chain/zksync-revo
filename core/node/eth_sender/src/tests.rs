@@ -1021,3 +1021,88 @@ async fn manager_monitors_even_unsuccesfully_sent_txs() {
         .is_some();
     assert!(is_confirmed);
 }
+
+#[test_log::test(tokio::test)]
+async fn test_dcap_attestation_functionality() {
+    use std::str::FromStr;
+    use zksync_config::configs::eth_sender::TeeDcapAttestationParams;
+    use zksync_config::configs::wallets::{EthSender as EthSenderWallet, Wallet as ConfigWallet};
+    use zksync_types::H256;
+
+    let pool = ConnectionPool::<Core>::test_pool().await;
+
+    let mut tester = EthSenderTester::new(
+        pool.clone(),
+        vec![100; 100],
+        false,
+        true,
+        L1BatchCommitmentMode::Rollup,
+        SettlementLayer::L1(10.into()),
+    )
+    .await;
+
+    // Create a mock DCAP attestation configuration
+    let mock_private_key =
+        H256::from_str("27593fea79697e947890ecbecce7901b0008345e5d7259710d0dd5e500d040be").unwrap();
+    let mock_params = TeeDcapAttestationParams {
+        gas_limit: 300000,
+        max_retries: 3,
+        contract_address: Address::random(),
+    };
+
+    // Create a wallet from the private key
+    let private_key = K256PrivateKey::from_bytes(mock_private_key).unwrap();
+    let wallet = ConfigWallet::new(private_key);
+
+    // Create an EthSender wallet configuration with DCAP attestation wallet
+    let eth_sender_wallet = EthSenderWallet {
+        operator: ConfigWallet::from_private_key_bytes(H256::repeat_byte(0x1), None).unwrap(),
+        blob_operator: Some(
+            ConfigWallet::from_private_key_bytes(H256::repeat_byte(0x2), None).unwrap(),
+        ),
+        tee_dcap_attestation_operator: Some(wallet),
+    };
+
+    // Initialize the DCAP attestation wallet and parameters
+    let (dcap_wallet, _) = EthTxManager::init_dcap_attestation_wallet(
+        &Some(eth_sender_wallet),
+        &tester.manager.config,
+    );
+    tester.manager.dcap_attestation_wallet = dcap_wallet;
+    tester.manager.dcap_attestation_params = Some(mock_params);
+
+    // Create and seal batches
+    let _genesis_batch = TestL1Batch::sealed(&mut tester).await;
+    let l1_batch = TestL1Batch::sealed(&mut tester).await;
+
+    // Generate mock commitment data
+    let mock_commitment_data = vec![1, 2, 3, 4, 5];
+
+    // Try to send an attestation transaction
+    let tx_hash = tester
+        .manager
+        .send_dcap_attestation(&mock_commitment_data)
+        .await;
+
+    // Verify that a transaction hash was returned
+    assert!(tx_hash.is_ok(), "Should return Ok result");
+    let tx_hash = tx_hash.unwrap();
+    assert!(tx_hash.is_some(), "Should return Some transaction hash");
+
+    // If we have a transaction hash, try to check its status
+    if let Some(hash) = tx_hash {
+        // Fake a success status for the transaction
+        tester.confirm_tx(hash, true).await;
+
+        // Check the transaction status
+        let status = tester.manager.check_dcap_attestation_tx_status(hash).await;
+        assert!(status.is_ok(), "Status check should succeed");
+        let status = status.unwrap();
+        assert!(status.is_some(), "Should get some status");
+        let status = status.unwrap();
+        assert!(
+            status.success,
+            "Transaction should be confirmed as successful"
+        );
+    }
+}
