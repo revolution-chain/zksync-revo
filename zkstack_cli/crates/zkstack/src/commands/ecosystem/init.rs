@@ -2,6 +2,7 @@ use std::{path::PathBuf, str::FromStr};
 
 use anyhow::Context;
 use xshell::Shell;
+use zkstack_cli_common::contracts::build_tee_contracts;
 use zkstack_cli_common::{
     config::global_config,
     contracts::{build_l1_contracts, build_l2_contracts, build_system_contracts},
@@ -116,6 +117,7 @@ async fn init_ecosystem(
         build_da_contracts(shell, &ecosystem_config.link_to_code)?;
         build_l1_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
         build_system_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
+        build_tee_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
         build_l2_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
     }
     spinner.finish();
@@ -150,6 +152,7 @@ async fn deploy_erc20(
         vec![
             wallets.governor.address,
             wallets.operator.address,
+            wallets.blob_operator.address,
             wallets.blob_operator.address,
         ],
     )
