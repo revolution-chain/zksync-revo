@@ -28,8 +28,10 @@ use super::{
     args::init::{EcosystemArgsFinal, EcosystemInitArgs, EcosystemInitArgsFinal},
     common::deploy_l1,
     setup_observability,
+    tee_contracts::deploy_tee_contracts,
     utils::{build_da_contracts, install_yarn_dependencies},
 };
+use crate::messages::MSG_DEPLOYING_TEE_CONTRACTS_SPINNER;
 use crate::{
     admin_functions::{accept_admin, accept_owner},
     commands::{
@@ -263,7 +265,7 @@ async fn deploy_ecosystem_inner(
     support_l2_legacy_shared_bridge_test: bool,
 ) -> anyhow::Result<ContractsConfig> {
     let spinner = Spinner::new(MSG_DEPLOYING_ECOSYSTEM_CONTRACTS_SPINNER);
-    let contracts_config = deploy_l1(
+    let mut contracts_config = deploy_l1(
         shell,
         &forge_args,
         config,
@@ -272,6 +274,19 @@ async fn deploy_ecosystem_inner(
         None,
         true,
         support_l2_legacy_shared_bridge_test,
+    )
+    .await?;
+    spinner.finish();
+
+    // Deploy TEE DCAP attestation contracts
+    let spinner = Spinner::new(MSG_DEPLOYING_TEE_CONTRACTS_SPINNER);
+    // Deploy the TEE contracts
+    deploy_tee_contracts(
+        shell,
+        config,
+        &mut contracts_config,
+        forge_args.clone(),
+        &l1_rpc_url,
     )
     .await?;
     spinner.finish();

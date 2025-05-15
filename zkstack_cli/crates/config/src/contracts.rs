@@ -175,6 +175,14 @@ impl ContractsConfig {
         self.l2.timestamp_asserter_addr = Some(timestamp_asserter_output.timestamp_asserter);
         Ok(())
     }
+
+    pub fn set_tee_dcap_attestation_addr(
+        &mut self,
+        tee_dcap_attestation_addr: Address,
+    ) -> anyhow::Result<()> {
+        self.ecosystem_contracts.tee_dcap_attestation_addr = Some(tee_dcap_attestation_addr);
+        Ok(())
+    }
 }
 
 impl FileConfigWithDefaultName for ContractsConfig {
@@ -210,6 +218,9 @@ pub struct EcosystemContracts {
     pub l1_wrapped_base_token_store: Option<Address>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub server_notifier_proxy_addr: Option<Address>,
+    // TEE DCAP attestation related contract address
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tee_dcap_attestation_addr: Option<Address>,
 }
 
 impl ZkStackConfig for EcosystemContracts {}
