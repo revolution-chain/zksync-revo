@@ -28,9 +28,9 @@ use super::{
     args::init::{EcosystemArgsFinal, EcosystemInitArgs, EcosystemInitArgsFinal},
     common::deploy_l1,
     setup_observability,
-    tee_contracts::deploy_tee_contracts,
     utils::{build_da_contracts, install_yarn_dependencies},
 };
+use crate::commands::ecosystem::tee_contracts::deploy_tee_contracts;
 use crate::messages::MSG_DEPLOYING_TEE_CONTRACTS_SPINNER;
 use crate::{
     admin_functions::{accept_admin, accept_owner},
