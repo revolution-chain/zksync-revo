@@ -29,6 +29,8 @@ pub fn build_system_contracts(shell: Shell, link_to_code: PathBuf) -> anyhow::Re
 }
 
 pub fn build_tee_contracts(shell: Shell, link_to_code: PathBuf) -> anyhow::Result<()> {
+    Ok(())
+    /*
     let _dir_guard = shell.push_dir(link_to_code.join("contracts/tee-contracts"));
-    Ok(Cmd::new(cmd!(shell, "forge build")).run()?)
+    Ok(Cmd::new(cmd!(shell, "forge build")).run()?) */
 }

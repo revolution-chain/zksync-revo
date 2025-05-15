@@ -2,7 +2,6 @@ use crate::utils::forge::{check_the_balance, fill_forge_private_key, WalletOwner
 use anyhow::Context;
 use xshell::Shell;
 use zkstack_cli_common::{
-    contracts::build_tee_contracts,
     forge::{Forge, ForgeScriptArgs},
     logger,
 };
@@ -24,19 +23,22 @@ pub async fn deploy_tee_contracts(
     forge_args: ForgeScriptArgs,
     l1_rpc_url: &str,
 ) -> anyhow::Result<()> {
-    // Build the TEE contracts first
-    build_tee_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
-
-    // Deploy the contracts
-    call_forge_tee_deploy(shell, ecosystem_config, forge_args, l1_rpc_url).await?;
-
-    // Read the deployment output and update the config
-    update_config_with_tee_contracts(shell, ecosystem_config, contracts_config)?;
-
-    // Log success message
-    logger::info("TEE DCAP attestation contracts deployed successfully");
-
     Ok(())
+    /*
+       // Build the TEE contracts first
+        build_tee_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
+
+        // Deploy the contracts
+        call_forge_tee_deploy(shell, ecosystem_config, forge_args, l1_rpc_url).await?;
+
+        // Read the deployment output and update the config
+        update_config_with_tee_contracts(shell, ecosystem_config, contracts_config)?;
+
+        // Log success message
+        logger::info("TEE DCAP attestation contracts deployed successfully");
+
+        Ok(())
+    */
 }
 
 /// Call the forge script to deploy TEE DCAP contracts

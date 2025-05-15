@@ -119,8 +119,8 @@ async fn init_ecosystem(
         build_da_contracts(shell, &ecosystem_config.link_to_code)?;
         build_l1_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
         build_system_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
-        build_tee_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
         build_l2_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
+        build_tee_contracts(shell.clone(), ecosystem_config.link_to_code.clone())?;
     }
     spinner.finish();
 
@@ -278,19 +278,6 @@ async fn deploy_ecosystem_inner(
     .await?;
     spinner.finish();
 
-    // Deploy TEE DCAP attestation contracts
-    let spinner = Spinner::new(MSG_DEPLOYING_TEE_CONTRACTS_SPINNER);
-    // Deploy the TEE contracts
-    deploy_tee_contracts(
-        shell,
-        config,
-        &mut contracts_config,
-        forge_args.clone(),
-        &l1_rpc_url,
-    )
-    .await?;
-    spinner.finish();
-
     accept_owner(
         shell,
         config,
@@ -366,6 +353,19 @@ async fn deploy_ecosystem_inner(
         l1_rpc_url.clone(),
     )
     .await?;
+
+    // Deploy TEE DCAP attestation contracts
+    let spinner = Spinner::new(MSG_DEPLOYING_TEE_CONTRACTS_SPINNER);
+    // Deploy the TEE contracts
+    deploy_tee_contracts(
+        shell,
+        config,
+        &mut contracts_config,
+        forge_args.clone(),
+        &l1_rpc_url,
+    )
+    .await?;
+    spinner.finish();
 
     Ok(contracts_config)
 }
