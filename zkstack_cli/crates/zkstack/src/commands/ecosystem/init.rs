@@ -2,10 +2,11 @@ use std::{path::PathBuf, str::FromStr};
 
 use anyhow::Context;
 use xshell::Shell;
-use zkstack_cli_common::contracts::build_tee_contracts;
 use zkstack_cli_common::{
     config::global_config,
-    contracts::{build_l1_contracts, build_l2_contracts, build_system_contracts},
+    contracts::{
+        build_l1_contracts, build_l2_contracts, build_system_contracts, build_tee_contracts,
+    },
     forge::{Forge, ForgeScriptArgs},
     git, logger,
     spinner::Spinner,
@@ -30,22 +31,21 @@ use super::{
     setup_observability,
     utils::{build_da_contracts, install_yarn_dependencies},
 };
-use crate::commands::ecosystem::tee_contracts::deploy_tee_contracts;
-use crate::messages::MSG_DEPLOYING_TEE_CONTRACTS_SPINNER;
 use crate::{
     admin_functions::{accept_admin, accept_owner},
     commands::{
         chain::{self},
-        ecosystem::create_configs::{
-            create_erc20_deployment_config, create_initial_deployments_config,
+        ecosystem::{
+            create_configs::{create_erc20_deployment_config, create_initial_deployments_config},
+            tee_contracts::deploy_tee_contracts,
         },
     },
     messages::{
         msg_chain_load_err, msg_ecosystem_initialized, msg_ecosystem_no_found_preexisting_contract,
         msg_initializing_chain, MSG_DEPLOYING_ECOSYSTEM_CONTRACTS_SPINNER, MSG_DEPLOYING_ERC20,
-        MSG_DEPLOYING_ERC20_SPINNER, MSG_ECOSYSTEM_CONTRACTS_PATH_INVALID_ERR,
-        MSG_ECOSYSTEM_CONTRACTS_PATH_PROMPT, MSG_INITIALIZING_ECOSYSTEM,
-        MSG_INTALLING_DEPS_SPINNER,
+        MSG_DEPLOYING_ERC20_SPINNER, MSG_DEPLOYING_TEE_CONTRACTS_SPINNER,
+        MSG_ECOSYSTEM_CONTRACTS_PATH_INVALID_ERR, MSG_ECOSYSTEM_CONTRACTS_PATH_PROMPT,
+        MSG_INITIALIZING_ECOSYSTEM, MSG_INTALLING_DEPS_SPINNER,
     },
     utils::forge::{check_the_balance, fill_forge_private_key, WalletOwner},
 };

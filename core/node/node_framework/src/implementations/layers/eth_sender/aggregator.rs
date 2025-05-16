@@ -4,14 +4,13 @@ use zksync_config::configs::eth_sender::SenderConfig;
 use zksync_eth_sender::{Aggregator, EthTxAggregator};
 use zksync_types::{commitment::L1BatchCommitmentMode, L2ChainId};
 
-use crate::implementations::resources::eth_interface::BoundEthInterfaceForTeeDcapResource;
 use crate::{
     implementations::resources::{
         circuit_breakers::CircuitBreakersResource,
         contracts::SettlementLayerContractsResource,
         eth_interface::{
             BoundEthInterfaceForBlobsResource, BoundEthInterfaceForL2Resource,
-            BoundEthInterfaceResource,
+            BoundEthInterfaceForTeeDcapResource, BoundEthInterfaceResource,
         },
         healthcheck::AppHealthCheckResource,
         object_store::ObjectStoreResource,

@@ -1025,8 +1025,11 @@ async fn manager_monitors_even_unsuccesfully_sent_txs() {
 #[test_log::test(tokio::test)]
 async fn test_dcap_attestation_functionality() {
     use std::str::FromStr;
-    use zksync_config::configs::eth_sender::TeeDcapAttestationParams;
-    use zksync_config::configs::wallets::{EthSender as EthSenderWallet, Wallet as ConfigWallet};
+
+    use zksync_config::configs::{
+        eth_sender::TeeDcapAttestationParams,
+        wallets::{EthSender as EthSenderWallet, Wallet as ConfigWallet},
+    };
     use zksync_types::H256;
 
     let pool = ConnectionPool::<Core>::test_pool().await;

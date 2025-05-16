@@ -24,7 +24,7 @@ Add DCAP attestation options to the `SenderConfig` in the `zksync_config` crate:
 pub struct SenderConfig {
     // Existing fields...
 
-    /// Optional DCAP attestation private key. If provided, will be used to send 
+    /// Optional DCAP attestation private key. If provided, will be used to send
     /// attestation transactions with each L1 commitment
     pub dcap_attestation_private_key: Option<String>,
 

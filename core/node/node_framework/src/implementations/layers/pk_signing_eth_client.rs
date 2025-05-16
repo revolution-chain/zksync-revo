@@ -1,14 +1,13 @@
 use zksync_config::{configs::wallets, GasAdjusterConfig};
 use zksync_eth_client::{clients::PKSigningClient, EthInterface};
 
-use crate::implementations::resources::eth_interface::BoundEthInterfaceForTeeDcapResource;
 use crate::{
     implementations::resources::{
         contracts::{L1ChainContractsResource, SettlementLayerContractsResource},
         eth_interface::{
             BoundEthInterfaceForBlobsResource, BoundEthInterfaceForL2Resource,
-            BoundEthInterfaceResource, EthInterfaceResource, SettlementLayerClient,
-            SettlementLayerClientResource,
+            BoundEthInterfaceForTeeDcapResource, BoundEthInterfaceResource, EthInterfaceResource,
+            SettlementLayerClient, SettlementLayerClientResource,
         },
     },
     wiring_layer::{WiringError, WiringLayer},

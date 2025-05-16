@@ -1,17 +1,18 @@
-use crate::utils::forge::{check_the_balance, fill_forge_private_key, WalletOwner};
 use anyhow::Context;
 use xshell::Shell;
 use zkstack_cli_common::{
     forge::{Forge, ForgeScriptArgs},
     logger,
 };
-use zkstack_cli_config::traits::ReadConfig;
 use zkstack_cli_config::{
     forge_interface::{
         deploy_tee::output::DeployTeeOutput, script_params::DEPLOY_TEE_SCRIPT_PARAMS,
     },
+    traits::ReadConfig,
     ContractsConfig, EcosystemConfig,
 };
+
+use crate::utils::forge::{check_the_balance, fill_forge_private_key, WalletOwner};
 
 // Using DeployTeeOutput from the config package to read the TOML output
 

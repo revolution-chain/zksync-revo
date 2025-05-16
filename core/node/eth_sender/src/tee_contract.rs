@@ -1,9 +1,12 @@
 //! TEE contract interface
 
-use crate::zksync_functions::get_function;
 use zksync_contracts::tee_contract;
-use zksync_types::ethabi::{Bytes, Function, Token};
-use zksync_types::U256;
+use zksync_types::{
+    ethabi::{Bytes, Function, Token},
+    U256,
+};
+
+use crate::zksync_functions::get_function;
 
 #[derive(Debug)]
 pub(super) struct TeeFunctions {
