@@ -336,10 +336,10 @@ impl GasConsts {
     const L1_OPERATION_EXECUTE_COST: u64 = 12_500;
 
     /// Base gas cost of processing `Precommit` operation.
-    const PRECOMMIT_BASE_COST: u64 = 100_000;
+    const PRECOMMIT_BASE_COST: u64 = 200_000;
 
     /// Additional gas cost of processing `Precommit` operation per tx.
-    const PRECOMMIT_PER_TX_COST: u64 = 5_000;
+    const PRECOMMIT_PER_TX_COST: u64 = 10_000;
 
     fn commit_costs(is_gateway: bool) -> CommitGasConsts {
         if is_gateway {
