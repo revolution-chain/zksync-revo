@@ -1,5 +1,21 @@
 # Changelog
 
+## [28.3.0](https://github.com/matter-labs/zksync-era/compare/core-v28.2.1...core-v28.3.0) (2025-05-20)
+
+
+### Features
+
+* add `en_getProtocolVersionInfo`, fix `eth_protocolVersion` ([#3988](https://github.com/matter-labs/zksync-era/issues/3988)) ([5adb640](https://github.com/matter-labs/zksync-era/commit/5adb64042c7f1d0699c4be50435fc96ee367fa13))
+* **avail-gas-relay:** add empty json check ([#4034](https://github.com/matter-labs/zksync-era/issues/4034)) ([55f0dd5](https://github.com/matter-labs/zksync-era/commit/55f0dd56eb749733c8f3b9293781ab84acc2913b))
+* Configuration system PoC ([#3851](https://github.com/matter-labs/zksync-era/issues/3851)) ([7b449c2](https://github.com/matter-labs/zksync-era/commit/7b449c216aa250cf99bb79e69df810f566dcc28a))
+* **contract_verifier:** read compiler versions from cbor metadata if available ([#4002](https://github.com/matter-labs/zksync-era/issues/4002)) ([9bc20a4](https://github.com/matter-labs/zksync-era/commit/9bc20a486d0bd8b169a836c1bf3f805f53315944))
+
+
+### Bug Fixes
+
+* Fix prefix for `TeeProofDataHandlerConfig` ([#4043](https://github.com/matter-labs/zksync-era/issues/4043)) ([4e42573](https://github.com/matter-labs/zksync-era/commit/4e425736e30c9678ef4418bdee2d4723313c81b4))
+* Prefix env vars for `zksync_server` ([#4039](https://github.com/matter-labs/zksync-era/issues/4039)) ([3b2dd70](https://github.com/matter-labs/zksync-era/commit/3b2dd70e858312d1709b8ac64a651f4f7f806e05))
+
 ## [28.2.1](https://github.com/matter-labs/zksync-era/compare/core-v28.2.0...core-v28.2.1) (2025-05-15)
 
 
